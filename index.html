@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>JS/Expert Example</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button
+            type="button"
+            class="navbar-toggle"
+            data-toggle="collapse"
+            data-target="#myNavbar"
+          >
+            <span class="icon-bar"></span> <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="http://www.jsexpert.net/">JS/Expert</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav hidden-sm hidden-md">
+            <li class="active"><a href="#">Работа с DOM</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="http://www.jsexpert.net/#head">Главная</a></li>
+            <li>
+              <a href="http://www.jsexpert.net/#basic"
+                >Как стать программистом</a
+              >
+            </li>
+            <li><a href="http://www.jsexpert.net/#js">Понятный JS</a></li>
+            <li>
+              <a href="http://www.jsexpert.net/#angular">Продвинутый JS</a>
+            </li>
+            <li><a href="http://www.jsexpert.net/articles/">База знаний</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="row text-center">
+      <div class="col-lg-4 col-md-4"></div>
+      <div class="col-lg-4 col-md-4">
+        <label for="gallery-sorting"></label>
+        <select id="gallery-sorting" class="form-control">
+          <option default value="0">-По имени А-Я-</option>
+          <option value="1">По имени Я-А</option>
+          <option value="2">Сначала новые</option>
+          <option value="3">Сначала старые</option>
+        </select>
+      </div>
+      <div class="col-lg-4 col-md-4"></div>
+
+      <div class="col-lg-12 col-md-12">
+        <span>Добавлено :</span> <span id="image-counter"></span><br />
+        <div class="btn btn-primary" id="add-image-button">Добавить</div>
+        <br /><br />
+      </div>
+    </div>
+    <div class="modal" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Error</h4>
+            </button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body">Nothing to add</div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="site-wrapper">
+      <div class="container">
+        <div class="row text-center second-group">
+          <div class="col-md-12"><h3>Галерея</h3></div>
+          <div class="col-md-12"><div id="gallery-body"></div></div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
