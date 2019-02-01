@@ -58,8 +58,8 @@ galleryBody.addEventListener("click", function(e) {
     e.target.parentElement.parentElement.classList.add("hide");
   }
 
-  for(let i=0;i<galleryBody.children.length;i++){
-    if(!galleryBody.children[i].classList.contains("hide")){
+  for (let i = 0; i < galleryBody.children.length; i++) {
+    if (!galleryBody.children[i].classList.contains("hide")) {
       counter++;
     }
   }
