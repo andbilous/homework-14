@@ -1,61 +1,69 @@
 const dataToRender = data.slice(0);
 let visibleImages = [];
-let pictureCount = 0;
-document.getElementById("image-counter").textContent = pictureCount;
+let pictureCount;
+document.getElementById("image-counter").textContent = 0;
 
 const sortingSelectBox = document.getElementById("gallery-sorting");
+
 const imageCounter = document.getElementById("image-counter");
 const addBtn = document.getElementById("add-image-button");
 const galleryBody = document.getElementById("gallery-body");
 const modal = document.getElementById("modal");
 const closeModalBtn = document.getElementById("closeModalBtn");
 sortingSelectBox.disabled = true;
-
+if (localStorage.getItem("sortingMethod") !== null) {
+  sortingSelectBox.value = localStorage.getItem("sortingMethod");
+}
 closeModalBtn.addEventListener("click", function() {
   modal.style.display = "none";
 });
 
 sortingSelectBox.addEventListener("change", function() {
   let sortedImages = [];
+  let sortingMethod;
+  localStorage.setItem("sortingMethod", sortingSelectBox.value);
+  sortingMethod = localStorage.getItem("sortingMethod");
   while (galleryBody.firstChild) {
     galleryBody.removeChild(galleryBody.firstChild);
   }
-  if (sortingSelectBox.value == 0) {
+  if (sortingMethod == 0) {
     sortedImages = visibleImages.sort(function(a, b) {
       return a.name.localeCompare(b.name);
     });
     render(sortedImages);
   }
-  if (sortingSelectBox.value == 1) {
+  if (sortingMethod == 1) {
     sortedImages = visibleImages.sort(function(a, b) {
       return b.name.localeCompare(a.name);
     });
     render(sortedImages);
   }
-  if (sortingSelectBox.value == 2) {
+  if (sortingMethod == 2) {
     sortedImages = visibleImages.sort(function(a, b) {
       return b.date.localeCompare(a.date);
     });
     render(sortedImages);
   }
-  if (sortingSelectBox.value == 3) {
+  if (sortingMethod == 3) {
     sortedImages = visibleImages.sort(function(a, b) {
       return a.date.localeCompare(b.date);
     });
     render(sortedImages);
   }
 });
+
 galleryBody.addEventListener("click", function(e) {
   if (e.target.classList.contains("delete")) {
     e.target.parentElement.parentElement.classList.add("hide");
   }
 });
 addBtn.addEventListener("click", function() {
+  pictureCount = 0;
   sortingSelectBox.disabled = false;
   let images = fetchData().splice("");
   visibleImages.push(images[pictureCount]);
   render(visibleImages);
-  pictureCount++;
+  pictureCount = galleryBody.children.length;
   document.getElementById("image-counter").textContent =
     pictureCount + " из " + images.length;
   if (visibleImages.length === images.length) {
