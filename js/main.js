@@ -53,10 +53,17 @@ sortingSelectBox.addEventListener("change", function() {
 });
 
 galleryBody.addEventListener("click", function(e) {
+  let counter = 0;
   if (e.target.classList.contains("delete")) {
     e.target.parentElement.parentElement.classList.add("hide");
   }
-  counterSetter(galleryBody.children.length - 1);
+
+  for(let i=0;i<galleryBody.children.length;i++){
+    if(!galleryBody.children[i].classList.contains("hide")){
+      counter++;
+    }
+  }
+  counterSetter(counter);
 });
 
 function counterSetter(value) {
@@ -71,6 +78,7 @@ addBtn.addEventListener("click", function() {
   } else visibleImages.push(images[visibleImages.length]);
   render(visibleImages);
   counterSetter(galleryBody.children.length);
+  console.log(galleryBody.children.length);
   if (visibleImages.length === images.length) {
     addBtn.disabled = true;
     addBtn.classList.add("disabled");
