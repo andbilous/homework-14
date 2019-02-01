@@ -56,20 +56,19 @@ galleryBody.addEventListener("click", function(e) {
   if (e.target.classList.contains("delete")) {
     e.target.parentElement.parentElement.classList.add("hide");
   }
-  counterSetter(galleryBody.children.length-1);
+  counterSetter(galleryBody.children.length - 1);
 });
 
-function counterSetter(value){
+function counterSetter(value) {
   document.getElementById("image-counter").textContent =
-  value + " из " + data.length;
+    value + " из " + data.length;
 }
 addBtn.addEventListener("click", function() {
   sortingSelectBox.disabled = false;
   let images = fetchData().splice("");
-  if(visibleImages.length==0){
+  if (visibleImages.length == 0) {
     visibleImages.push(images[0]);
-  }else
-  visibleImages.push(images[visibleImages.length]);
+  } else visibleImages.push(images[visibleImages.length]);
   render(visibleImages);
   counterSetter(galleryBody.children.length);
   if (visibleImages.length === images.length) {
