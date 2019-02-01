@@ -1,9 +1,9 @@
-const dataToRender = data.slice(0);
+const dataToRender = fetchData();
+
 let visibleImages = [];
 document.getElementById("image-counter").textContent = 0;
-
 const sortingSelectBox = document.getElementById("gallery-sorting");
-
+visibleImageCounter = 0;
 const imageCounter = document.getElementById("image-counter");
 const addBtn = document.getElementById("add-image-button");
 const galleryBody = document.getElementById("gallery-body");
@@ -13,81 +13,100 @@ sortingSelectBox.disabled = true;
 if (localStorage.getItem("sortingMethod") !== null) {
   sortingSelectBox.value = localStorage.getItem("sortingMethod");
 }
+galleryBody.addEventListener("click", function() {
+  visibleImages.map(function(image) {
+    if (image.id == event.target.parentNode.children[0].textContent) {
+      visibleImages.splice(visibleImages.indexOf(image), 1);
+    }
+  });
+  render(sortImages(visibleImages));
+  counterSetter(visibleImages.length);
+});
+
 closeModalBtn.addEventListener("click", function() {
   modal.style.display = "none";
 });
 
 sortingSelectBox.addEventListener("change", function() {
-  let sortedImages = [];
-  let sortingMethod;
   localStorage.setItem("sortingMethod", sortingSelectBox.value);
-  sortingMethod = sortingSelectBox.value;
-  console.log(sortingMethod);
-  while (galleryBody.firstChild) {
-    galleryBody.removeChild(galleryBody.firstChild);
+  render(sortImages(visibleImages));
+});
+
+function sortImages(imagesToSort) {
+  let sortingMethod;
+  if (localStorage.getItem("sortingMethod") !== null) {
+    sortingMethod = localStorage.getItem("sortingMethod");
+  } else {
+    sortingMethod = 0;
   }
   if (sortingMethod == 0) {
-    sortedImages = visibleImages.sort(function(a, b) {
+    sortedImages = imagesToSort.sort(function(a, b) {
       return a.name.localeCompare(b.name);
     });
-    render(sortedImages);
   }
   if (sortingMethod == 1) {
-    sortedImages = visibleImages.sort(function(a, b) {
+    sortedImages = imagesToSort.sort(function(a, b) {
       return b.name.localeCompare(a.name);
     });
-    render(sortedImages);
   }
   if (sortingMethod == 2) {
-    sortedImages = visibleImages.sort(function(a, b) {
+    sortedImages = imagesToSort.sort(function(a, b) {
       return b.date.localeCompare(a.date);
     });
-    render(sortedImages);
   }
   if (sortingMethod == 3) {
-    sortedImages = visibleImages.sort(function(a, b) {
+    sortedImages = imagesToSort.sort(function(a, b) {
       return a.date.localeCompare(b.date);
     });
-    render(sortedImages);
   }
-});
+  return sortedImages;
+}
 
-galleryBody.addEventListener("click", function(e) {
-  let counter = 0;
-  if (e.target.classList.contains("delete")) {
-    e.target.parentElement.parentElement.classList.add("hide");
-  }
+function render(dataToRender) {
+  let itemTemplate;
+  let resultHTML;
+  dataToRender.forEach(item => {
+    itemTemplate = `<div class="col-sm-3 col-xs-6">\
+    <img src="${item.url}" alt="${item.name}" class="img-thumbnail">\
+    <div class="info-wrapper">\
+        <div class="text-muted hide">${item.id}</div>\
+        <div class="text-muted">${item.name}</div>\
+        <div class="text-muted top-padding">${item.description}</div>\
+        <div class="text-muted">${item.date}</div>\
+        <button type="button" class="btn btn-danger delete">Удалить</div>\
+    </div>\
+    </div>`;
+    resultHTML += itemTemplate;
+    resultHTML = resultHTML.replace("undefined", "");
+  });
+  galleryBody.innerHTML = resultHTML;
+}
 
-  for (let i = 0; i < galleryBody.children.length; i++) {
-    if (!galleryBody.children[i].classList.contains("hide")) {
-      counter++;
-    }
-  }
-  counterSetter(counter);
-});
+function deleteImagefromVisibleImages(index) {
+  visibleImages = visibleImages.splice(index, 1);
+}
 
 function counterSetter(value) {
   document.getElementById("image-counter").textContent =
     value + " из " + data.length;
 }
+
 addBtn.addEventListener("click", function() {
   sortingSelectBox.disabled = false;
-  let images = fetchData().splice("");
-  if (visibleImages.length == 0) {
-    visibleImages.push(images[0]);
-  } else visibleImages.push(images[visibleImages.length]);
-  render(visibleImages);
-  counterSetter(galleryBody.children.length);
-  console.log(galleryBody.children.length);
-  if (visibleImages.length === images.length) {
-    addBtn.disabled = true;
+  visibleImages.push(dataToRender[visibleImageCounter]);
+  visibleImageCounter++;
+  render(sortImages(visibleImages));
+  counterSetter(visibleImages.length);
+  console.log(visibleImages.length);
+  console.log(dataToRender.length);
+  if (visibleImages.length === dataToRender.length) {
     addBtn.classList.add("disabled");
     modal.style.display = "block";
   }
 });
 
 function fetchData() {
-  let resultData = dataToRender.slice(0);
+  let resultData = data.slice(0);
   resultData.forEach(function(item) {
     item.name = item.name.toUpperCase();
     if (item.description.length > 15) {
@@ -99,23 +118,4 @@ function fetchData() {
     }
   });
   return resultData;
-}
-
-function render(renderingData) {
-  let itemTemplate;
-  let resultHTML;
-  renderingData.forEach(item => {
-    itemTemplate = `<div class="col-sm-3 col-xs-6">\
-    <img src="${item.url}" alt="${item.name}" class="img-thumbnail">\
-    <div class="info-wrapper">\
-        <div class="text-muted">${item.name}</div>\
-        <div class="text-muted top-padding">${item.description}</div>\
-        <div class="text-muted">${item.date}</div>\
-        <button type="button" class="btn btn-danger delete">Удалить</div>\
-    </div>\
-    </div>`;
-    resultHTML += itemTemplate;
-    resultHTML = resultHTML.replace("undefined", "");
-  });
-  galleryBody.innerHTML = resultHTML;
 }
