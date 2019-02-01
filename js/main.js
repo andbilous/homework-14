@@ -7,8 +7,13 @@ const sortingSelectBox = document.getElementById("gallery-sorting");
 const imageCounter = document.getElementById("image-counter");
 const addBtn = document.getElementById("add-image-button");
 const galleryBody = document.getElementById("gallery-body");
-const modal = document.querySelector(".modal");
+const modal = document.getElementById("modal");
+const closeModalBtn = document.getElementById("closeModalBtn");
 sortingSelectBox.disabled = true;
+
+closeModalBtn.addEventListener("click", function() {
+  modal.style.display = "none";
+});
 
 sortingSelectBox.addEventListener("change", function() {
   let sortedImages = [];

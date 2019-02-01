@@ -14,7 +14,8 @@
             type="button"
             class="navbar-toggle"
             data-toggle="collapse"
-            data-target="#myNavbar">
+            data-target="#myNavbar"
+          >
             <span class="icon-bar"></span> <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
@@ -60,19 +61,24 @@
         <br /><br />
       </div>
     </div>
-    <div class="modal" id="myModal">
+    <div
+      class="modal fade"
+      id="myModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="myModalLabel"
+    ></div>
+
+     <div class="modal" id="modal">
       <div class="modal-dialog">
         <div class="modal-content">
-          <!-- Modal Header -->
           <div class="modal-header">
             <h4 class="modal-title">Error</h4>
             </button>
           </div>
-          <!-- Modal body -->
           <div class="modal-body">Nothing to add</div>
-          <!-- Modal footer -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">
+     <div class="modal-footer">
+            <button type="button" id="closeModalBtn" class="btn btn-danger" data-dismiss="modal">
               Close
             </button>
           </div>
@@ -88,7 +94,11 @@
       </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-1.12.4.min.js"
+      integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+      crossorigin="anonymous"
+    ></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script src="js/data.js"></script>
     <script src="js/main.js"></script>
