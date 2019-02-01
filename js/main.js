@@ -1,6 +1,5 @@
 const dataToRender = data.slice(0);
 let visibleImages = [];
-let pictureCount;
 document.getElementById("image-counter").textContent = 0;
 
 const sortingSelectBox = document.getElementById("gallery-sorting");
@@ -22,7 +21,8 @@ sortingSelectBox.addEventListener("change", function() {
   let sortedImages = [];
   let sortingMethod;
   localStorage.setItem("sortingMethod", sortingSelectBox.value);
-  sortingMethod = localStorage.getItem("sortingMethod");
+  sortingMethod = sortingSelectBox.value;
+  console.log(sortingMethod);
   while (galleryBody.firstChild) {
     galleryBody.removeChild(galleryBody.firstChild);
   }
@@ -56,16 +56,22 @@ galleryBody.addEventListener("click", function(e) {
   if (e.target.classList.contains("delete")) {
     e.target.parentElement.parentElement.classList.add("hide");
   }
+  counterSetter(galleryBody.children.length-1);
 });
+
+function counterSetter(value){
+  document.getElementById("image-counter").textContent =
+  value + " из " + data.length;
+}
 addBtn.addEventListener("click", function() {
-  pictureCount = 0;
   sortingSelectBox.disabled = false;
   let images = fetchData().splice("");
-  visibleImages.push(images[pictureCount]);
+  if(visibleImages.length==0){
+    visibleImages.push(images[0]);
+  }else
+  visibleImages.push(images[visibleImages.length]);
   render(visibleImages);
-  pictureCount = galleryBody.children.length;
-  document.getElementById("image-counter").textContent =
-    pictureCount + " из " + images.length;
+  counterSetter(galleryBody.children.length);
   if (visibleImages.length === images.length) {
     addBtn.disabled = true;
     addBtn.classList.add("disabled");
