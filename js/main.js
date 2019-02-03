@@ -1,22 +1,25 @@
+"use strict";
 const dataToRender = fetchData();
-
 let visibleImages = [];
 document.getElementById("image-counter").textContent = 0;
 const sortingSelectBox = document.getElementById("gallery-sorting");
-visibleImageCounter = 0;
+let visibleImageCounter = 1;
 const imageCounter = document.getElementById("image-counter");
 const addBtn = document.getElementById("add-image-button");
 const galleryBody = document.getElementById("gallery-body");
 const modal = document.getElementById("modal");
 const closeModalBtn = document.getElementById("closeModalBtn");
 sortingSelectBox.disabled = true;
+
 if (localStorage.getItem("sortingMethod") !== null) {
   sortingSelectBox.value = localStorage.getItem("sortingMethod");
 }
+
 galleryBody.addEventListener("click", function() {
   visibleImages.map(function(image) {
     if (image.id == event.target.parentNode.children[0].textContent) {
       visibleImages.splice(visibleImages.indexOf(image), 1);
+      visibleImageCounter--;
     }
   });
   render(sortImages(visibleImages));
@@ -34,6 +37,7 @@ sortingSelectBox.addEventListener("change", function() {
 
 function sortImages(imagesToSort) {
   let sortingMethod;
+  let sortedImages;
   if (localStorage.getItem("sortingMethod") !== null) {
     sortingMethod = localStorage.getItem("sortingMethod");
   } else {
@@ -62,10 +66,10 @@ function sortImages(imagesToSort) {
   return sortedImages;
 }
 
-function render(dataToRender) {
+function render(imagesToRender) {
   let itemTemplate;
   let resultHTML;
-  dataToRender.forEach(item => {
+  imagesToRender.forEach(item => {
     itemTemplate = `<div class="col-sm-3 col-xs-6">\
     <img src="${item.url}" alt="${item.name}" class="img-thumbnail">\
     <div class="info-wrapper">\
@@ -92,13 +96,12 @@ function counterSetter(value) {
 }
 
 addBtn.addEventListener("click", function() {
+  console.log("=>dataToRender", dataToRender);
   sortingSelectBox.disabled = false;
-  visibleImages.push(dataToRender[visibleImageCounter]);
+  visibleImages = dataToRender.slice(0, visibleImageCounter);
   visibleImageCounter++;
   render(sortImages(visibleImages));
   counterSetter(visibleImages.length);
-  console.log(visibleImages.length);
-  console.log(dataToRender.length);
   if (visibleImages.length === dataToRender.length) {
     addBtn.classList.add("disabled");
     modal.style.display = "block";
